@@ -4,11 +4,35 @@
 package scrap.heap.refactor;
 
 import org.junit.Test;
+import scrap.heap.refactor.enums.Color;
+import scrap.heap.refactor.enums.Flavor;
+import scrap.heap.refactor.enums.Material;
+import scrap.heap.refactor.enums.Shape;
+import scrap.heap.refactor.enums.Size;
+import scrap.heap.refactor.merchandise.Balloon;
+import scrap.heap.refactor.merchandise.Cake;
 import static org.junit.Assert.*;
 
 public class AppTest {
-    @Test public void testAppHasAGreeting() {
+    @Test
+    public void testAppHasAGreeting() {
         App classUnderTest = new App();
         assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+    }
+
+    @Test
+    public void testOrder() {
+        Balloon balloon = new Balloon(Color.RED, Material.LATEX, 42);
+        Cake cake = new Cake(Flavor.CHOCOLATE, Flavor.CHOCOLATE, Shape.SQUARE, Size.LARGE, Color.YELLOW);
+        App classUnderTest = new App();
+        // no asserts for the next 3 lines, because (for now) order() just calls void stubs (and is void itself)
+        classUnderTest.order(balloon, cake);
+        classUnderTest.order(null, cake);
+        classUnderTest.order(balloon, null);
+        try {
+            classUnderTest.order(null, null);
+        } catch (IllegalArgumentException e) {
+            assertEquals("at least one of (balloon, cake) must be specified", e.getMessage());
+        }
     }
 }
